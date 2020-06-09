@@ -1,11 +1,13 @@
 <h3>Create an Account</h3>
 <form class="ui form" [formGroup] ="authForm">
-    <div class="field">
+    <!-- Below comments have been replaced by reusable input component -->
+    
+    <!-- <div class="field">
         <label>Username</label>
         <input formControlName="username" />
-    </div>
-    {{ authForm.get('username').errors | json }}
-    <div class="field">
+    </div> -->
+    <!-- {{ authForm.get('username').errors | json }} -->
+    <!-- <div class="field">
         <label>Password</label>
         <input formControlName="password" />
     </div>
@@ -14,9 +16,41 @@
         <label>Password Confirmation</label>
         <input formControlName="passwordConfirmation" />
     </div>
-    {{ authForm.get('passwordConfirmation').errors | json }}
+    {{ authForm.get('passwordConfirmation').errors | json }} -->
+    
 
-    <button class="ui submit button primary">Submit</button>
+    <app-input 
+        inputType="text"
+        label="Username" 
+        [control]="authForm.get('username')"
+    ></app-input>
+    <app-input
+        inputType="password"
+        label="Password"
+        [control]="authForm.get('password')"   
+    ></app-input>
+    <app-input
+        inputType="password"
+        label="Confirm Password"
+        [control]="authForm.get('passwordConfirmation')"   
+    ></app-input>
 
+    <!-- only show the errors div id the user has touched both password fields and ended up with errors -->
+    <div 
+        *ngIf="authForm.get('password').touched &&
+        authForm.get('passwordConfirmation').touched &&
+        authForm.errors" 
+        class="ui red basic label"
+    >
+        <p *ngIf="authForm.errors.passwordsDontMatch">
+            Password and Confirm Password must match.
+        </p>
+    </div>
+
+    <div class="submit button primary">
+        <button class="ui submit button primary">
+            Submit
+        </button>
+    </div>
     {{ authForm.errors | json }}
 </form>
