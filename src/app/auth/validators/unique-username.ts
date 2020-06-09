@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AsyncValidator, FormControl } from '@angular/forms';
+import { map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 // below marks the UniqueUsername class as using the Ingectable decorator.
 // this enables the UniqueUsername class to use the Dependancy Injection system (ABootcamp2020 vid 278)
@@ -17,8 +19,27 @@ export class UniqueUsername implements AsyncValidator{
     validate = (control: FormControl) => {
         const { value } = control;
         
-        console.log(this.http);
 
-        return null;
-    }
+        // Async validator should return an OBSERVABLE.
+        // If an error is emmited it must be caught otherwise it will skip over some
+        // operators in the pipe and be emmitted as an error object instead of an observable.
+        return this.http.post<any>('https://api.angular-email.com/auth/username', {
+            username: value // comes from api docs
+        }).pipe(
+            map((value)=> {
+                if (value.available){
+                    return null; // the only way we end up in this map() is if the request was succesful. so just return null
+                }
+            }),
+            catchError((err) => {
+                console.log(err);
+                if (err.error.username) {
+                    // of() is a shortcut for creating a new observable. 
+                    return of({ nonUniquiquUsername: true })
+                } else {
+                    return of({ noConnection: true });
+                }
+            })
+        );
+    };
 }
