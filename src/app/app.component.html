@@ -1,3 +1,23 @@
-
-
-<router-outlet></router-outlet>
+<div class="ui container">
+    <div class="ui secondary pointing menu">
+        <a routerLink="/" class="item">Amgular Email</a>
+    
+            <div class="right menu">
+                <!-- as soon as signedin$ emits a value, the async pipe will recieve it and recalculate the *ngIf  -->
+                <ng-container *ngIf="signedin$ | async">
+                    <a class="ui item" routerLink="/inbox" routerLinkActive="active">
+                        Inbox</a>
+                    <a class="ui item" routerLink="/signout" routerLinkActive="active">
+                        Sign Out</a>
+                </ng-container>
+                <ng-container *ngIf="!(signedin$ | async)">
+                    <a class="ui item" routerLink="/" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active">
+                        Sign In</a>
+                    <a class="ui item" routerLink="/signup" routerLinkActive="active">
+                        Sign up</a>
+                </ng-container>
+            </div>
+    </div>
+    
+    <router-outlet></router-outlet>
+</div>
