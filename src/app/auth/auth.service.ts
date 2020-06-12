@@ -31,6 +31,10 @@ export class AuthService {
         })
   }
 
+  // {withCredentials: true} passed as an argument to .post() cancels the default behaviour of discarding cookies recieved
+  // from the server during signin or signup.
+  // this means our authentication checks will include the cookie and keep us signed in.
+  // This solution was replaced with an Interceptor (ABootcamp2020 vid 302)
   signup(credentials: SignupCredentials) {
     return this.http.post<SignupResponse>(
       this.rootUrl + '/auth/signup',
@@ -42,4 +46,14 @@ export class AuthService {
           })
         );
   };
+
+  checkAuth() {
+    return this.http.get(
+      this.rootUrl + '/auth/signedin'
+    ).pipe(
+      tap((response) => {
+        console.log(response);
+      })
+    );
+  }
 }

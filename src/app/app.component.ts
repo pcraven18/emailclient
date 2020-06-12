@@ -12,7 +12,7 @@ export class AppComponent {
 
   constructor(private authService: AuthService) {
     this.signedin$ = this.authService.signedin$;
-    
+
   }
 
   ngOnInit() {
@@ -23,5 +23,7 @@ export class AppComponent {
     // this.authService.signedin$.subscribe((signedin)=> {
     //   this.signedin = signedin;
     // })
+
+    this.authService.checkAuth().subscribe(()=>{});
   }
 }
