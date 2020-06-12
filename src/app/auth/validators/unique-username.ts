@@ -21,7 +21,7 @@ export class UniqueUsername implements AsyncValidator{
         const { value } = control;
         
 
-        // Async validator should return an OBSERVABLE.
+        // Async validator should return an OBSERVABLE or a promise.
         // If an error is emmited it must be caught otherwise it will skip over some
         // operators in the pipe and be emmitted as an error object instead of an observable.
         return this.authService.usernameAvailable(value)
