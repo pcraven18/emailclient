@@ -18,6 +18,10 @@ interface SignedinResponse {
   authenticated: boolean;
   username: string;
 }
+interface SigninCredentials {
+  username: string,
+  password: string
+}
 
 @Injectable({
   providedIn: 'root'
@@ -57,7 +61,7 @@ export class AuthService {
       this.rootUrl + '/auth/signedin'
     ).pipe(
       tap(({authenticated}) => {
-        console.log('authenticated: ', authenticated);
+        // console.log('authenticated: ', authenticated);
         // change signin status across the whole app
         this.signedin$.next(authenticated);
       })
@@ -71,5 +75,17 @@ export class AuthService {
           this.signedin$.next(false);
         })
       );
+  }
+
+  signin(credentials: SigninCredentials) {
+    // if post request is unsuccessful (user entered wrone data) it will return
+    // an error. This error will not enter the pipe and 
+    // user will not be sisned in.
+    return this.http.post(`${this.rootUrl}/auth/signin`, credentials)
+      .pipe(
+        tap(()=> {
+          this.signedin$.next(true);
+        })
+      )
   }
 }
