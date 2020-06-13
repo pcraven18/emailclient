@@ -25,5 +25,10 @@ export class AppComponent {
     // })
 
     this.authService.checkAuth().subscribe(()=>{});
+    // signout test
+    // setTimeout(() => {
+    //   this.authService.signout().subscribe(()=>{});
+    // }, 5000);
+    
   }
 }

@@ -28,16 +28,16 @@ export class AuthHttpInterceptor {
 
         return next.handle(modifiedReq)
         .pipe(
-            tap (val => {
-                // console.log(val); // view status info from next.handle() observable
-                if (val.type === HttpEventType.Sent){
-                    console.log('Request was sent to server');
-                }
-                // http.d.ts for a full list of HttpEventTypes
-                if (val.type === HttpEventType.Response) {
-                    console.log('Got a response from the API', val);
-                }
-            })
+            // tap (val => {
+            //     // console.log(val); // view status info from next.handle() observable
+            //     if (val.type === HttpEventType.Sent){
+            //         console.log('Request was sent to server');
+            //     }
+            //     // http.d.ts for a full list of HttpEventTypes
+            //     if (val.type === HttpEventType.Response) {
+            //         console.log('Got a response from the API', val);
+            //     }
+            // })
         );
     }
 }

@@ -58,8 +58,18 @@ export class AuthService {
     ).pipe(
       tap(({authenticated}) => {
         console.log('authenticated: ', authenticated);
+        // change signin status across the whole app
         this.signedin$.next(authenticated);
       })
     );
+  }
+
+  signout(){
+    return this.http.post(`${this.rootUrl}/auth/signout`, {})
+      .pipe(
+        tap(()=>{
+          this.signedin$.next(false);
+        })
+      );
   }
 }
