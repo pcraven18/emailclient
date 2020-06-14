@@ -10,6 +10,7 @@
                     <a class="ui item" routerLink="/signout" routerLinkActive="active">
                         Sign Out</a>
                 </ng-container>
+                <!-- exact true tells app not to consider all urls beginning with '/' to be active -->
                 <ng-container *ngIf="!(signedin$ | async)">
                     <a class="ui item" routerLink="/" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active">
                         Sign In</a>

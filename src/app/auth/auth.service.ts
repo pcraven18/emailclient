@@ -60,6 +60,7 @@ export class AuthService {
     return this.http.get<SignedinResponse>(
       this.rootUrl + '/auth/signedin'
     ).pipe(
+      // authenticated is recognised because we used an interface.
       tap(({authenticated}) => {
         // console.log('authenticated: ', authenticated);
         // change signin status across the whole app

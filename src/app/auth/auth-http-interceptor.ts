@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 @Injectable()
-export class AuthHttpInterceptor {
+export class AuthHttpInterceptor implements HttpInterceptor{
     // ABootcamp 2020 (vid 301) - for more on Interceptors
     intercept(
         req: HttpRequest<any>,

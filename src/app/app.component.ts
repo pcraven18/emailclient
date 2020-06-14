@@ -11,6 +11,7 @@ export class AppComponent {
   signedin$: BehaviorSubject<boolean>;
 
   constructor(private authService: AuthService) {
+    // binds signedin$ from authService to variable with same name in this class
     this.signedin$ = this.authService.signedin$;
 
   }
