@@ -19,8 +19,12 @@ interface SignedinResponse {
   username: string;
 }
 interface SigninCredentials {
-  username: string,
-  password: string
+  username: string;
+  password: string;
+}
+
+interface SigninResponse {
+  username: string;
 }
 
 @Injectable({
@@ -30,6 +34,7 @@ export class AuthService {
   rootUrl = 'https://api.angular-email.com';
   // signedin$ will broadcast to whole app 
   signedin$ = new BehaviorSubject(null);
+  username = '';
 
   constructor(private http: HttpClient) { }
 
@@ -49,9 +54,10 @@ export class AuthService {
       this.rootUrl + '/auth/signup',
         credentials
       ).pipe(
-          tap(()=> {
+          tap((response)=> {
             // if there is an error in signing up the tap() will be skipped
             this.signedin$.next(true);
+            this.username = response.username;
           })
         );
   };
@@ -61,10 +67,11 @@ export class AuthService {
       this.rootUrl + '/auth/signedin'
     ).pipe(
       // authenticated is recognised because we used an interface.
-      tap(({authenticated}) => {
+      tap(({authenticated, username}) => {
         // console.log('authenticated: ', authenticated);
         // change signin status across the whole app
         this.signedin$.next(authenticated);
+        this.username = username;
       })
     );
   }
@@ -82,11 +89,12 @@ export class AuthService {
     // if post request is unsuccessful (user entered wrone data) it will return
     // an error. This error will not enter the pipe and 
     // user will not be sisned in.
-    return this.http.post(`${this.rootUrl}/auth/signin`, credentials)
+    return this.http.post<SigninResponse>(`${this.rootUrl}/auth/signin`, credentials)
       .pipe(
-        tap(()=> {
+        tap((response)=> {
           this.signedin$.next(true);
+          this.username = response.username;
         })
-      )
+      );
   }
 }
