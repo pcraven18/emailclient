@@ -3,10 +3,10 @@
         <!-- routerLink is relevent to current location. therefore no need for /inbox/id -->
         <a [routerLink]="email.id" routerLinkActive="active">
             <div class="content">
-                <div class="header">
+                <div class="header trim">
                     {{ email.subject }}
                 </div>
-                <p>
+                <p class="trim">
                     {{ email.from }}
                 </p>
             </div>
