@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { Email } from '../email';
@@ -11,6 +11,7 @@ import { Email } from '../email';
 export class EmailFormComponent implements OnInit {
   emailForm: FormGroup;
   @Input() email: Email;
+  @Output() emailSubmit = new EventEmitter();
 
   constructor() { }
 
@@ -32,4 +33,14 @@ export class EmailFormComponent implements OnInit {
     });
   }
 
+  onSubmit() {
+    if (this.emailForm.invalid) {
+      return;
+    }
+    // this.emailForm.getRawValue() would give all values in the form, including the 'from' field which is currently disabled
+    // console.log(this.emailForm.value);
+
+    // emit an event outside of our form upon submition
+    this.emailSubmit.emit(this.emailForm.value);
+  }
 }
